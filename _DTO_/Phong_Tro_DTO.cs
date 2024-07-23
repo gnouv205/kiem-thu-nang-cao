@@ -8,16 +8,6 @@ namespace _DTO_
 {
 	public class Phong_Tro_DTO
 	{
-		/*
-         id int identity,
-	MaPhong varchar(20),
-	TenPhong nvarchar(50)not null,
-	DienTich nvarchar(20) not null,
-	Gia float not null,
-	TinhTrang tinyint default 1,-- 1 la trong, 0 la da thue
-	MaNguoiDung varchar(20) not null,
-	GhiChu nvarchar(100)not null
-         */
 		private int id;
 		private string maPhong;
 		private string tenPhong;

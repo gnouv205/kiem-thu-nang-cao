@@ -91,5 +91,10 @@ namespace _3GUI_
         {
             MoForm(new frm_PhongTro());
         }
+
+        private void kháchThuêToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoForm(new frm_KhachThue());
+        }
     }
 }

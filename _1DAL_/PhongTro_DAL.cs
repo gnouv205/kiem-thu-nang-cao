@@ -42,7 +42,7 @@ namespace _1DAL_
                 using (SqlCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "SP_TaiDanhSachPhong";
+                    cmd.CommandText = "SP_DanhSachPhong";
                     cmd.CommandType = CommandType.StoredProcedure;
                     DataTable List = new DataTable();
                     List.Load(cmd.ExecuteReader());
@@ -57,12 +57,35 @@ namespace _1DAL_
 
         }
 
+        public static DataTable DanhSachMaPhong()
+        {
+            try
+            {
+                using (SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "SP_DanhSachMaPhong";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    DataTable danhsachkhach = new DataTable();
+                    danhsachkhach.Load(cmd.ExecuteReader());
+                    return danhsachkhach;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+            }
+            return null;
+        }
+
         public static DataTable TimKiemTenPhong(string tenphong)
         {
             try
             {
                 using (SqlConnection con = DuongDanKetNoi.KetNoi())
-                using (SqlCommand cmd = new SqlCommand("SP_TimKiem", con))
+                using (SqlCommand cmd = new SqlCommand("SP_TimKiemPhong", con))
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -158,6 +181,26 @@ namespace _1DAL_
                 return false;
             }
             return false;    
+        }
+
+        public static string TinhTrangPhong(string maphong)
+        {
+            try
+            {
+                using (SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlCommand cmd = new SqlCommand("SP_TinhTrangPhong", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@maphong", maphong);
+                    string tinhtrang = cmd.ExecuteScalar().ToString();
+                    return tinhtrang;
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
         }
     }
 }

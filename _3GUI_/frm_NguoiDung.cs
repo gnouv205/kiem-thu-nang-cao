@@ -24,6 +24,8 @@ namespace _3GUI_
             dataGridViewNguoiDung.DataSource = null;
             txtTimKiem.Text = "Nhập Tên Người Dùng";
 
+            radioButtonNhanVien.Checked = false;
+            radioButtonQuantri.Checked = false;
             radioButtonHoatDong.Checked = false;
             radioButtonNgung.Checked = false;
 
@@ -35,6 +37,8 @@ namespace _3GUI_
             txtTimKiem.Enabled = false;
             radioButtonHoatDong.Enabled = false;
             radioButtonNgung.Enabled = false;
+            radioButtonNhanVien.Enabled = false;
+            radioButtonQuantri.Enabled = false;
 
             btnThem.Enabled = false;
             btnSua.Enabled = false;
@@ -52,7 +56,10 @@ namespace _3GUI_
             txtEmail.Text = null;
             txtSoDienThoai.Text = null;
             txtDiaChi.Text = null;
+            txtTimKiem.Text = null;
 
+            radioButtonNhanVien.Checked = false;
+            radioButtonQuantri.Checked = false;
             radioButtonHoatDong.Checked = false;
             radioButtonNgung.Checked = false;
 
@@ -63,6 +70,9 @@ namespace _3GUI_
             txtDiaChi.Enabled = true;
             radioButtonHoatDong.Enabled = true;
             radioButtonNgung.Enabled = true;
+            radioButtonNhanVien.Enabled = true;
+            radioButtonQuantri.Enabled = true;
+            txtTimKiem.Enabled = true;
 
             btnThem.Enabled = true ;
             btnSua.Enabled = true;
@@ -75,13 +85,22 @@ namespace _3GUI_
 
         void TaiDanhSach()
         {
-            dataGridViewNguoiDung.DataSource = NguoiDung_BUS.TaiDanhSachNguoiDung();
-            dataGridViewNguoiDung.Columns[0].HeaderText = "Mã Người Dùng";
-            dataGridViewNguoiDung.Columns[1].HeaderText = "Họ Và Tên";
-            dataGridViewNguoiDung.Columns[2].HeaderText = "Email";
-            dataGridViewNguoiDung.Columns[3].HeaderText = "Số Điện Thoại";
-            dataGridViewNguoiDung.Columns[4].HeaderText = "Địa Chỉ";
-            dataGridViewNguoiDung.Columns[5].HeaderText = "Tình Trạng";
+            try
+            {
+                dataGridViewNguoiDung.DataSource = NguoiDung_BUS.TaiDanhSachNguoiDung();
+                dataGridViewNguoiDung.Columns[0].HeaderText = "Mã Người Dùng";
+                dataGridViewNguoiDung.Columns[1].HeaderText = "Họ Và Tên";
+                dataGridViewNguoiDung.Columns[2].HeaderText = "Email";
+                dataGridViewNguoiDung.Columns[3].HeaderText = "Số Điện Thoại";
+                dataGridViewNguoiDung.Columns[4].HeaderText = "Địa Chỉ";
+                dataGridViewNguoiDung.Columns[5].HeaderText = "Vai Trò";
+                dataGridViewNguoiDung.Columns[6].HeaderText = "Tình Trạng";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GiaTriMoi();
+            }
         }
 
         void HienThongTin()
@@ -89,23 +108,26 @@ namespace _3GUI_
             try
             {
                 if (dataGridViewNguoiDung.Rows.Count > 0)
-                {
-                    int tinhtrang = 0; // Hoạt động
+                {              
                     txtMaNguoiDung.Text = dataGridViewNguoiDung.CurrentRow.Cells["MaNguoiDung"].Value.ToString();
                     txtTenNguoiDung.Text = dataGridViewNguoiDung.CurrentRow.Cells["TenNguoiDung"].Value.ToString();
                     txtEmail.Text = dataGridViewNguoiDung.CurrentRow.Cells["Email"].Value.ToString();
                     txtSoDienThoai.Text = dataGridViewNguoiDung.CurrentRow.Cells["SoDienThoai"].Value.ToString();
                     txtDiaChi.Text = dataGridViewNguoiDung.CurrentRow.Cells["DiaChi"].Value.ToString();
-                    if (int.TryParse(dataGridViewNguoiDung.CurrentRow.Cells["TinhTrang"].Value.ToString(), out tinhtrang))
+
+                    int vaitro = Convert.ToInt32(dataGridViewNguoiDung.CurrentRow.Cells["VaiTro"].Value.ToString()); // Hoạt động
+                    radioButtonQuantri.Checked = vaitro== 0 ? true : false;
+                    radioButtonNhanVien.Checked = !radioButtonQuantri.Checked;
+
+                    int tinhtrang = Convert.ToInt32(dataGridViewNguoiDung.CurrentRow.Cells["TinhTrang"].Value.ToString()); // Hoạt động
+                    radioButtonHoatDong.Checked = tinhtrang == 0 ? true : false;
+                    radioButtonNgung.Checked = !radioButtonHoatDong.Checked;
+
+                    if (txtMaNguoiDung.Text == "")
                     {
-                        radioButtonHoatDong.Checked = tinhtrang == 0 ? true : false;
-                        radioButtonNgung.Checked = !radioButtonHoatDong.Checked;
-                    }                   
-                }
-                else
-                {
-                    MessageBox.Show("Bảng dữ liệu không tồn tại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    GiaTriMoi();
+                        MessageBox.Show("Bảng dữ liệu không tồn tại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        GiaTriMoi();
+                    }
                 }
             }          
             catch
@@ -115,22 +137,25 @@ namespace _3GUI_
             }
         }
 
-        #region Nghiep vu
+        #region Nghiệp Vụ
+
         void GiaTriNhap()
         {
             int sdt = int.Parse(txtSoDienThoai.Text);
+            int vaitro = radioButtonQuantri.Checked ? 0 : 1;
             int tinhtrang = radioButtonHoatDong.Checked ? 0 : 1;
             nguoidung.TenNguoiDung = txtTenNguoiDung.Text;
             nguoidung.Email = txtEmail.Text;
             nguoidung.SoDT = sdt;
             nguoidung.DiaChi = txtDiaChi.Text;
+            nguoidung.VaiTro = vaitro;
             nguoidung.TinhTrang = tinhtrang;
             nguoidung.MatKhau = "123";
         }
 
         bool KiemTraGiaTriNhap()
         {
-            return KiemTraTen() && KiemTraEmail() && KiemTraSoDienThoai() && KiemTraTinhTrang() && KiemTraDiaChi(); 
+            return KiemTraTen() && KiemTraEmail() && KiemTraSoDienThoai() && KiemTraVaitro() && KiemTraTinhTrang() && KiemTraDiaChi(); 
         }
 
         bool KiemTraTen()
@@ -196,6 +221,16 @@ namespace _3GUI_
             return true;
         }
 
+        bool KiemTraVaitro()
+        {
+            if (!radioButtonQuantri.Checked && !radioButtonNhanVien.Checked)
+            {
+                MessageBox.Show("Bạn Chưa chọn vai trò cho người dùng này.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
         bool KiemTraTinhTrang()
         {
             if (!radioButtonHoatDong.Checked && !radioButtonNgung.Checked)
@@ -210,7 +245,7 @@ namespace _3GUI_
         {
             if (txtTimKiem.Text.Length == 0)
             {
-                MessageBox.Show("Tên người dùng bạn muốn tìm là ai? ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Tên Khach bạn muốn tìm là ai? ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtTimKiem.Focus();
                 return false;
             }
@@ -219,9 +254,103 @@ namespace _3GUI_
 
         #endregion
 
-        #region Hàm Thực thi
+        #region Hàm Xử Lý Dữ Liệu
 
         void ThemTaiKhoan()
+        {
+            try
+            {
+                if (NguoiDung_BUS.ThemTaiKhoan(nguoidung))
+                {
+                    MessageBox.Show("Bạn Đã Thêm Thành Công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    TaiDanhSach();
+                    GiaTriMoi();
+                }
+                else
+                {
+                    MessageBox.Show("Bạn Đã Thêm Thất Bại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GiaTriMoi();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GiaTriMoi();
+            }
+        }
+
+        void SuaTaiKhoan()
+        {
+            try
+            {
+                nguoidung.MaNguoiDung = txtMaNguoiDung.Text;
+                if (NguoiDung_BUS.SuaTaiKhoan(nguoidung))
+                {
+                    MessageBox.Show("Bạn Đã Sửa Thành Công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    TaiDanhSach();
+                    GiaTriMoi();
+                }
+                else
+                {
+                    MessageBox.Show("Bạn Đã Sửa Thất Bại ", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GiaTriMoi();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GiaTriMoi();
+            }
+        }
+
+        void XoaTaiKhoan()
+        {
+            try
+            {
+                if (NguoiDung_BUS.XoaTaiKhoan(txtMaNguoiDung.Text))
+                {
+                    MessageBox.Show("Bạn Đã Xóa Thành Công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    TaiDanhSach();
+                    GiaTriMoi();
+                }
+                else
+                {
+                    MessageBox.Show("Bạn Đã Xóa Thất Bại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GiaTriMoi();
+            }
+        }
+
+        void TimKiemTaiKhoan()
+        {
+            try
+            {
+                DataTable danhsach = NguoiDung_BUS.TimKiemTaiKhoan(txtTimKiem.Text);
+                if (danhsach.Rows.Count > 0)
+                {
+                    dataGridViewNguoiDung.DataSource = danhsach;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy Người Dùng Này", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GiaTriMoi();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GiaTriMoi();
+            }
+        }
+        #endregion
+
+        #region Hàm Thực Thi Chức Năng
+
+        void ChucNang_ThemTaiKhoan()
         {
             try
             {
@@ -238,17 +367,7 @@ namespace _3GUI_
                 }
                 else
                 {
-                    if (NguoiDung_BUS.ThemTaiKhoan(nguoidung))
-                    {
-                        MessageBox.Show("Bạn Đã Thêm Thành Công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        TaiDanhSach();
-                        GiaTriMoi();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Bạn Đã Thêm Thất Bại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        GiaTriMoi();
-                    }
+                    ThemTaiKhoan();
                 }
             }
             catch (Exception ex)
@@ -258,7 +377,7 @@ namespace _3GUI_
             }
         }
 
-        void SuaTaiKhoan()
+        void ChucNang_SuaTaiKhoan()
         {
             try
             {
@@ -274,18 +393,7 @@ namespace _3GUI_
                 }
                 else
                 {
-                    nguoidung.MaNguoiDung = txtMaNguoiDung.Text;  
-                    if (NguoiDung_BUS.SuaTaiKhoan(nguoidung))
-                    {
-                        MessageBox.Show("Bạn Đã Sửa Thành Công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        TaiDanhSach();
-                        GiaTriMoi();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Bạn Đã Sửa Thất Bại ", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        GiaTriMoi();
-                    }
+                    SuaTaiKhoan();
                 }
             }
             catch (Exception ex)
@@ -295,7 +403,7 @@ namespace _3GUI_
             }
         }
 
-        void XoaTaiKhoan()
+        void ChucNang_XoaTaiKhoan()
         {
             try
             {
@@ -305,16 +413,7 @@ namespace _3GUI_
                 }
                 else
                 {
-                    if (NguoiDung_BUS.XoaTaiKhoan(txtMaNguoiDung.Text))
-                    {
-                        MessageBox.Show("Bạn Đã Xóa Thành Công", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        TaiDanhSach();
-                        GiaTriMoi();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Bạn Đã Xóa Thất Bại", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    XoaTaiKhoan();
                 }
             }
             catch (Exception ex)
@@ -324,26 +423,13 @@ namespace _3GUI_
             }
         }
 
-        void TimKiemTaiKhoan()
+        void ChucNang_TimKiemTaiKhoan()
         {
             try
             {
-                KiemtraTimKiem();
-                txtTimKiem.Text = null;
-                txtTimKiem.Enabled = true;
-                nguoidung.TenNguoiDung = txtTimKiem.Text;
-
-                DataTable danhsach = NguoiDung_BUS.TimKiemTaiKhoan(nguoidung.TenNguoiDung);
-                if (danhsach.Rows.Count > 0)
-                {
-                    dataGridViewNguoiDung.DataSource = danhsach;
-                    //HienThongTin();
-                }
-                else
-                {
-                    MessageBox.Show("Không tìm thấy khách hàng", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    GiaTriMoi();
-                }
+                if (!KiemtraTimKiem())
+                    return;
+                TimKiemTaiKhoan();
 
             }
             catch (Exception ex)
@@ -355,7 +441,7 @@ namespace _3GUI_
 
         #endregion
 
-        #region Chuc nang
+        #region Chức Năng
         private void dataGridViewNguoiDung_Click(object sender, EventArgs e)
         {
             btnThem.Enabled = false;
@@ -369,22 +455,22 @@ namespace _3GUI_
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            ThemTaiKhoan();
+            ChucNang_ThemTaiKhoan();
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            SuaTaiKhoan();
+            ChucNang_SuaTaiKhoan();
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            XoaTaiKhoan();
+            ChucNang_XoaTaiKhoan();
         }
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            TimKiemTaiKhoan();
+            ChucNang_TimKiemTaiKhoan();
         }
 
         private void btnKhoiDong_Click(object sender, EventArgs e)

@@ -57,18 +57,26 @@ namespace _3GUI_
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridViewNguoiDung = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.radioButtonNhanVien = new System.Windows.Forms.RadioButton();
+            this.radioButtonQuantri = new System.Windows.Forms.RadioButton();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewNguoiDung)).BeginInit();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.panel5);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.panel4);
             this.panel3.Controls.Add(this.txtTim);
             this.panel3.Controls.Add(this.txtTimKiem);
-            this.panel3.Controls.Add(this.radioButtonHoatDong);
-            this.panel3.Controls.Add(this.radioButtonNgung);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.txtDiaChi);
             this.panel3.Controls.Add(this.txtMaNguoiDung);
@@ -111,7 +119,7 @@ namespace _3GUI_
             this.radioButtonHoatDong.AutoSize = true;
             this.radioButtonHoatDong.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonHoatDong.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonHoatDong.Location = new System.Drawing.Point(486, 63);
+            this.radioButtonHoatDong.Location = new System.Drawing.Point(5, 5);
             this.radioButtonHoatDong.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonHoatDong.Name = "radioButtonHoatDong";
             this.radioButtonHoatDong.Size = new System.Drawing.Size(104, 23);
@@ -124,7 +132,7 @@ namespace _3GUI_
             this.radioButtonNgung.AutoSize = true;
             this.radioButtonNgung.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonNgung.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonNgung.Location = new System.Drawing.Point(486, 120);
+            this.radioButtonNgung.Location = new System.Drawing.Point(5, 32);
             this.radioButtonNgung.Margin = new System.Windows.Forms.Padding(5);
             this.radioButtonNgung.Name = "radioButtonNgung";
             this.radioButtonNgung.Size = new System.Drawing.Size(153, 23);
@@ -137,7 +145,7 @@ namespace _3GUI_
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Blue;
-            this.label6.Location = new System.Drawing.Point(370, 64);
+            this.label6.Location = new System.Drawing.Point(370, 120);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(106, 23);
@@ -408,6 +416,62 @@ namespace _3GUI_
             this.label1.TabIndex = 2;
             this.label1.Text = "Thông Tin Tài Khoản";
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.radioButtonHoatDong);
+            this.panel4.Controls.Add(this.radioButtonNgung);
+            this.panel4.Location = new System.Drawing.Point(490, 106);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(213, 62);
+            this.panel4.TabIndex = 21;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.radioButtonNhanVien);
+            this.panel5.Controls.Add(this.radioButtonQuantri);
+            this.panel5.Location = new System.Drawing.Point(489, 42);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(213, 49);
+            this.panel5.TabIndex = 23;
+            // 
+            // radioButtonNhanVien
+            // 
+            this.radioButtonNhanVien.AutoSize = true;
+            this.radioButtonNhanVien.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonNhanVien.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.radioButtonNhanVien.Location = new System.Drawing.Point(5, 21);
+            this.radioButtonNhanVien.Margin = new System.Windows.Forms.Padding(5);
+            this.radioButtonNhanVien.Name = "radioButtonNhanVien";
+            this.radioButtonNhanVien.Size = new System.Drawing.Size(100, 23);
+            this.radioButtonNhanVien.TabIndex = 6;
+            this.radioButtonNhanVien.Text = "Nhân Viên";
+            this.radioButtonNhanVien.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonQuantri
+            // 
+            this.radioButtonQuantri.AutoSize = true;
+            this.radioButtonQuantri.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonQuantri.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.radioButtonQuantri.Location = new System.Drawing.Point(112, 22);
+            this.radioButtonQuantri.Margin = new System.Windows.Forms.Padding(5);
+            this.radioButtonQuantri.Name = "radioButtonQuantri";
+            this.radioButtonQuantri.Size = new System.Drawing.Size(88, 23);
+            this.radioButtonQuantri.TabIndex = 7;
+            this.radioButtonQuantri.Text = "Quản Trị";
+            this.radioButtonQuantri.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Blue;
+            this.label4.Location = new System.Drawing.Point(368, 62);
+            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(79, 23);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Vai Trò:";
+            // 
             // frm_NguoiDung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
@@ -428,6 +492,10 @@ namespace _3GUI_
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewNguoiDung)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -462,5 +530,10 @@ namespace _3GUI_
         private System.Windows.Forms.Button btnChayLai;
         private System.Windows.Forms.Button btnHienDanhSach;
         private System.Windows.Forms.Button btnKhoiDong;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.RadioButton radioButtonNhanVien;
+        private System.Windows.Forms.RadioButton radioButtonQuantri;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel4;
     }
 }

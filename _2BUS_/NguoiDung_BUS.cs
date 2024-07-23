@@ -86,6 +86,30 @@ namespace _2BUS_
             }
         }
 
+        public static string TinhtrangNguoiDung(string email)
+        {
+            try
+            {
+                return NguoiDung_DAL.TinhTrangNguoiDung(email);
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
+        }
+
+        public static string VaiTroNguoiDung(string email)
+        {
+            try
+            {
+                return NguoiDung_DAL.VaiTroNguoiDung(email);
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
+        }
+
         // kiểm tra email
         public static bool CheckAddEmail(string emailAdd)
         {

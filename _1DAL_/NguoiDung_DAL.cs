@@ -39,7 +39,7 @@ namespace _1DAL_
                 using (SqlCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "SP_TaiDanhSachNguoiDung";
+                    cmd.CommandText = "SP_DanhSachNguoiDung";
                     cmd.CommandType = CommandType.StoredProcedure;
                     DataTable DanhSachNguoiDung = new DataTable();
                     DanhSachNguoiDung.Load(cmd.ExecuteReader());
@@ -86,6 +86,7 @@ namespace _1DAL_
                     new SqlParameter ("@email",nguoidung.Email),
                     new SqlParameter ("@sodienthoai",nguoidung.SoDT),
                     new SqlParameter ("@diachi",nguoidung.DiaChi),
+                    new SqlParameter("@vaitro",nguoidung.VaiTro),
                     new SqlParameter ("@tinhtrang",nguoidung.TinhTrang),
                      new SqlParameter("@matkhau",nguoidung.MatKhau)
                 };
@@ -109,6 +110,7 @@ namespace _1DAL_
                     new SqlParameter ("@email",nguoidung.Email),
                     new SqlParameter ("@sodienthoai",nguoidung.SoDT),
                     new SqlParameter ("@diachi",nguoidung.DiaChi),
+                    new SqlParameter("@vaitro",nguoidung.VaiTro),
                     new SqlParameter ("@tinhtrang",nguoidung.TinhTrang)
                 };
                 return ExecuteNonQuery("SP_SuaTaiKhoan", parameters);
@@ -154,6 +156,46 @@ namespace _1DAL_
                 return false;
             }
             return false;
+        }
+
+        public static string TinhTrangNguoiDung(string email)
+        {
+            try
+            {
+                using(SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlCommand cmd = new SqlCommand("SP_TinhTrangNguoiDung", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@email", email);
+                    string tinhtrang = cmd.ExecuteScalar().ToString();
+                    return tinhtrang;
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
+        }
+
+        public static string VaiTroNguoiDung(string email)
+        {
+            try
+            {
+                using (SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlCommand cmd = new SqlCommand("SP_VaitroNguoiDung", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@email", email);
+                    string vaitro = cmd.ExecuteScalar().ToString();
+                    return vaitro;
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
         }
     }
 }

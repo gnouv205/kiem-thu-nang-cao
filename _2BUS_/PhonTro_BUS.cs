@@ -24,6 +24,19 @@ namespace _2BUS_
             }
         }
 
+        public static DataTable DanhSachMaPhong()
+        {
+            try
+            {
+                return PhongTro_DAL.DanhSachMaPhong();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+                return null;
+            }
+        }
+
         public static DataTable TimKiemTenPhong(string tenphong)
         {
             try
@@ -86,6 +99,18 @@ namespace _2BUS_
             {
                 Console.WriteLine("Lỗi: " + ex.Message);
                 return false;
+            }
+        }
+
+        public static string TinhTrangPhong(string maphong)
+        {
+            try
+            {
+                return PhongTro_DAL.TinhTrangPhong(maphong);
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
             }
         }
     }

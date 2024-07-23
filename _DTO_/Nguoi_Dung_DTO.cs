@@ -14,6 +14,7 @@ namespace _DTO_
         private string email;
         private int soDT;
         private string diaChi;
+        private int vaiTro;
         private int tinhTrang;
         private string matKhau;
 
@@ -25,8 +26,9 @@ namespace _DTO_
         public string DiaChi { get => diaChi; set => diaChi = value; }
         public string MatKhau { get => matKhau; set => matKhau = value; }
         public int TinhTrang { get => tinhTrang; set => tinhTrang = value; }
+        public int VaiTro { get => vaiTro; set => vaiTro = value; }
 
-        public Nguoi_Dung_DTO(int id, string ma, string ten, string email, int sdt, string diachi, int tinhtrang,string matkhau)
+        public Nguoi_Dung_DTO(int id, string ma, string ten, string email, int sdt, string diachi, int vaitro, int tinhtrang,string matkhau)
         {
             this.Id = id;
             this.MaNguoiDung = ma;
@@ -34,6 +36,7 @@ namespace _DTO_
             this.Email = email;
             this.SoDT = sdt;
             this.DiaChi = diachi;
+            this.VaiTro = vaitro;
             this.TinhTrang = tinhtrang;
             this.MatKhau = matkhau;
         }
