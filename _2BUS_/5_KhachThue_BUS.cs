@@ -11,11 +11,37 @@ namespace _2BUS_
 {
     public static class KhachThue_BUS
     {
-        public static DataTable DanhSachKhachThue()
+        public static DataTable DanhSachKhachConThue()
         {
             try
             {
-                return KhachThue_DAL.DanhSachKhachThue();
+                return KhachThue_DAL.DanhSachKhachConThue();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+                return null;
+            }
+        }
+
+        public static string DanhSachMaPhongCuaKhach(string makhach)
+        {
+            try
+            {
+                return KhachThue_DAL.DanSachMaPhongCuaKhach(makhach);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+                return null;
+            }
+        }
+
+        public static DataTable DanhSachKhachHetHan()
+        {
+            try
+            {
+                return KhachThue_DAL.DanhSachKhachHetHan();
             }
             catch (Exception ex)
             {
@@ -76,11 +102,11 @@ namespace _2BUS_
             return false;
         }
 
-        public static bool XoaKhach(string makhach)
+        public static bool XoaKhach(string makhach,string maphong)
         {
             try
             {
-                return KhachThue_DAL.XoaKhach(makhach);
+                return KhachThue_DAL.XoaKhach(makhach, maphong);
             }
             catch (Exception ex)
             {
@@ -89,11 +115,11 @@ namespace _2BUS_
             return false;
         }
 
-        public static bool KiemTraTonTaiKhach(string tenkhach)
+        public static bool KiemTraTonTaiKhach(string tenkhach, string cccd)
         {
             try
             {
-                return KhachThue_DAL.KiemTraTonTaiKhach(tenkhach);
+                return KhachThue_DAL.KiemTraTonTaiKhach(tenkhach, cccd);
             }
             catch (Exception ex)
             {

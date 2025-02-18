@@ -31,7 +31,7 @@ namespace _1DAL_
             return false;
         }
 
-        public static DataTable TaiDanhSachNguoiDung()
+        private static DataTable TaiDanhSachNguoiDung(string proc)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace _1DAL_
                 using (SqlCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "SP_DanhSachNguoiDung";
+                    cmd.CommandText = proc;
                     cmd.CommandType = CommandType.StoredProcedure;
                     DataTable DanhSachNguoiDung = new DataTable();
                     DanhSachNguoiDung.Load(cmd.ExecuteReader());
@@ -53,7 +53,33 @@ namespace _1DAL_
             }
         }
 
-        public static DataTable TimKiemTaiKHoan(string tennguoidung)
+        public static DataTable TaiDanhSachNguoiDungHoatDong()
+        {
+            try
+            {
+                return TaiDanhSachNguoiDung("SP_DanhSachNguoiDung");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: { ex.Message}");
+                return null;
+            }
+        }
+
+        public static DataTable TaiDanhSachNguoiDungNgungHoatDong()
+        {
+            try
+            {
+                return TaiDanhSachNguoiDung("SP_DanhSachNguoiDungNgungHoatDong");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: { ex.Message}");
+                return null;
+            }
+        }
+
+        public static DataTable TimKiemTaiKHoan(string tennguoidung, string sodienthoai)
         {
             try
             {
@@ -63,6 +89,7 @@ namespace _1DAL_
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@tennguoidung", tennguoidung);
+                    cmd.Parameters.AddWithValue("@sodienthoai", sodienthoai);
                     DataTable TimTK = new DataTable();
                     TimTK.Load(cmd.ExecuteReader());
                     con.Close();
@@ -156,46 +183,6 @@ namespace _1DAL_
                 return false;
             }
             return false;
-        }
-
-        public static string TinhTrangNguoiDung(string email)
-        {
-            try
-            {
-                using(SqlConnection con = DuongDanKetNoi.KetNoi())
-                using (SqlCommand cmd = new SqlCommand("SP_TinhTrangNguoiDung", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@email", email);
-                    string tinhtrang = cmd.ExecuteScalar().ToString();
-                    return tinhtrang;
-                }
-            }
-            catch (Exception ex)
-            {
-                return $"Lỗi: {ex.Message}";
-            }
-        }
-
-        public static string VaiTroNguoiDung(string email)
-        {
-            try
-            {
-                using (SqlConnection con = DuongDanKetNoi.KetNoi())
-                using (SqlCommand cmd = new SqlCommand("SP_VaitroNguoiDung", con))
-                {
-                    con.Open();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@email", email);
-                    string vaitro = cmd.ExecuteScalar().ToString();
-                    return vaitro;
-                }
-            }
-            catch (Exception ex)
-            {
-                return $"Lỗi: {ex.Message}";
-            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace _1DAL_
 {
     public static class PhongTro_DAL
     {
-        public static bool ExecuteNonQuery(string proc, params SqlParameter[] parameters)
+        private static bool ExecuteNonQuery(string proc, params SqlParameter[] parameters)
         {
             try
             {
@@ -34,7 +34,9 @@ namespace _1DAL_
             return false;
         }
 
-        public static DataTable TaiDanhSachPhong()
+        #region Danh Sach Phong
+
+        private static DataTable TaiDanhSachPhong(string proc)
         {
             try
             {
@@ -42,7 +44,7 @@ namespace _1DAL_
                 using (SqlCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "SP_DanhSachPhong";
+                    cmd.CommandText = proc;
                     cmd.CommandType = CommandType.StoredProcedure;
                     DataTable List = new DataTable();
                     List.Load(cmd.ExecuteReader());
@@ -56,6 +58,48 @@ namespace _1DAL_
             }
 
         }
+
+        public static DataTable TaiDanhSachPhongTrong()
+        {
+            try
+            {
+                return TaiDanhSachPhong("SP_DanhSachPhongTrong");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: { ex.Message}");
+                return null;
+            }
+        }
+
+        public static DataTable TaiDanhSachPhongDaThue()
+        {
+            try
+            {
+                return TaiDanhSachPhong("SP_DanhSachPhong");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: { ex.Message}");
+                return null;
+            }
+        }
+
+        public static DataTable TaiDanhSachPhongKhongSuDung()
+        {
+            try
+            {
+                return TaiDanhSachPhong("SP_DanhSachPhongKhongSuDung");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: { ex.Message}");
+                return null;
+            }
+        }
+
+
+        #endregion
 
         public static DataTable DanhSachMaPhong()
         {
@@ -89,7 +133,7 @@ namespace _1DAL_
                 {
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@tenphong", tenphong);
+                    cmd.Parameters.AddWithValue("@tenPhong", tenphong);
                     DataTable TimTK = new DataTable();
                     TimTK.Load(cmd.ExecuteReader());
                     con.Close();
@@ -103,6 +147,7 @@ namespace _1DAL_
             }
         }
 
+
         public static bool ThemPhong(Phong_Tro_DTO phongtro)
         {
             try
@@ -113,6 +158,7 @@ namespace _1DAL_
                      new SqlParameter("@dientich", phongtro.DienTich),
                      new SqlParameter("@gia", phongtro.Gia),
                      new SqlParameter("@tinhtrang", phongtro.TinhTrang),
+                     new SqlParameter("@hientrang", phongtro.HienTrang),
                      new SqlParameter("@email", phongtro.Email),
                      new SqlParameter("@ghichu", phongtro.GhiChu)
                 };
@@ -136,6 +182,7 @@ namespace _1DAL_
                      new SqlParameter("@dientich", phongtro.DienTich),
                      new SqlParameter("@gia", phongtro.Gia),
                      new SqlParameter("@tinhtrang", phongtro.TinhTrang),
+                     new SqlParameter("@hientrang", phongtro.HienTrang),
                      new SqlParameter("@email", phongtro.Email),
                      new SqlParameter("@ghichu", phongtro.GhiChu)
                 };
@@ -202,5 +249,58 @@ namespace _1DAL_
                 return $"Lỗi: {ex.Message}";
             }
         }
+
+        public static string HienTrangPhong(string maphong)
+        {
+            try
+            {
+                using (SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlCommand cmd = new SqlCommand("SP_HienTrangPhong", con))
+                {
+                    con.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@maphong", maphong);
+                    string tinhtrang = cmd.ExecuteScalar().ToString();
+                    return tinhtrang;
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
+        }
+
+        public static string DanSachGiaPhong(string maphong)
+        {
+            try
+            {
+                using (SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "SP_DanhSachGiaPhong";
+                    cmd.Parameters.AddWithValue("@maPhong", maphong);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Giả sử cột trả về có tên là "Gia"
+                            return reader["Gia"].ToString();
+                        }
+                        else
+                        {
+                            return null; // Không có dữ liệu trả về
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+            }
+            return null;
+        }
+
     }
 }

@@ -8,11 +8,11 @@ namespace _2BUS_
 {
     public static class NguoiDung_BUS
     {
-        public static DataTable TaiDanhSachNguoiDung()
+        public static DataTable TaiDanhSachNguoiDungHoatDong()
         {
             try
             {
-                return NguoiDung_DAL.TaiDanhSachNguoiDung();
+                return NguoiDung_DAL.TaiDanhSachNguoiDungHoatDong();
             }
             catch(Exception ex)
             {
@@ -21,11 +21,25 @@ namespace _2BUS_
             }
         }
 
-        public static DataTable TimKiemTaiKhoan(string tennguoidung)
+        public static DataTable TaiDanhSachNguoiDungNgungHoatDong()
         {
             try
             {
-                return NguoiDung_DAL.TimKiemTaiKHoan(tennguoidung);
+                return NguoiDung_DAL.TaiDanhSachNguoiDungNgungHoatDong();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Loi:  {ex.Message}");
+                return null;
+            }
+        }
+
+
+        public static DataTable TimKiemTaiKhoan(string tennguoidung, string sodienthoai)
+        {
+            try
+            {
+                return NguoiDung_DAL.TimKiemTaiKHoan(tennguoidung, sodienthoai);
             }
             catch (Exception ex)
             {
@@ -83,30 +97,6 @@ namespace _2BUS_
             {
                 Console.WriteLine($"Loi:  {ex.Message}");
                 return false;
-            }
-        }
-
-        public static string TinhtrangNguoiDung(string email)
-        {
-            try
-            {
-                return NguoiDung_DAL.TinhTrangNguoiDung(email);
-            }
-            catch (Exception ex)
-            {
-                return $"Lỗi: {ex.Message}";
-            }
-        }
-
-        public static string VaiTroNguoiDung(string email)
-        {
-            try
-            {
-                return NguoiDung_DAL.VaiTroNguoiDung(email);
-            }
-            catch (Exception ex)
-            {
-                return $"Lỗi: {ex.Message}";
             }
         }
 

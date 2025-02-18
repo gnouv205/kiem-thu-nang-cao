@@ -41,6 +41,7 @@ namespace _3GUI_
             this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
             this.radioButtonHetThue = new System.Windows.Forms.RadioButton();
             this.radioButtonConThue = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
@@ -58,6 +59,7 @@ namespace _3GUI_
             this.label5 = new System.Windows.Forms.Label();
             this.dataGridViewKhachThue = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.ckbKhachThueHetHan = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -195,7 +197,7 @@ namespace _3GUI_
             // 
             // txtTimKiem
             // 
-            this.txtTimKiem.Location = new System.Drawing.Point(494, 178);
+            this.txtTimKiem.Location = new System.Drawing.Point(494, 199);
             this.txtTimKiem.Margin = new System.Windows.Forms.Padding(4);
             this.txtTimKiem.Name = "txtTimKiem";
             this.txtTimKiem.Size = new System.Drawing.Size(203, 27);
@@ -206,7 +208,7 @@ namespace _3GUI_
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Red;
-            this.label9.Location = new System.Drawing.Point(364, 178);
+            this.label9.Location = new System.Drawing.Point(364, 199);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(93, 23);
@@ -215,6 +217,7 @@ namespace _3GUI_
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label10);
             this.panel3.Controls.Add(this.radioButtonHetThue);
             this.panel3.Controls.Add(this.radioButtonConThue);
             this.panel3.Controls.Add(this.label6);
@@ -237,6 +240,18 @@ namespace _3GUI_
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(706, 230);
             this.panel3.TabIndex = 19;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Black;
+            this.label10.Location = new System.Drawing.Point(491, 178);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(189, 17);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "Nhập Tên Hoặc Số Điện Thoại";
             // 
             // radioButtonHetThue
             // 
@@ -274,8 +289,9 @@ namespace _3GUI_
             // 
             // cbxMaPhong
             // 
+            this.cbxMaPhong.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMaPhong.FormattingEnabled = true;
-            this.cbxMaPhong.Location = new System.Drawing.Point(494, 121);
+            this.cbxMaPhong.Location = new System.Drawing.Point(494, 132);
             this.cbxMaPhong.Name = "cbxMaPhong";
             this.cbxMaPhong.Size = new System.Drawing.Size(203, 27);
             this.cbxMaPhong.TabIndex = 18;
@@ -285,7 +301,7 @@ namespace _3GUI_
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Blue;
-            this.label8.Location = new System.Drawing.Point(364, 121);
+            this.label8.Location = new System.Drawing.Point(364, 132);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(102, 23);
@@ -356,7 +372,7 @@ namespace _3GUI_
             // 
             // txtSDT
             // 
-            this.txtSDT.Location = new System.Drawing.Point(146, 120);
+            this.txtSDT.Location = new System.Drawing.Point(146, 132);
             this.txtSDT.Margin = new System.Windows.Forms.Padding(4);
             this.txtSDT.Name = "txtSDT";
             this.txtSDT.Size = new System.Drawing.Size(203, 27);
@@ -367,7 +383,7 @@ namespace _3GUI_
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Blue;
-            this.label4.Location = new System.Drawing.Point(11, 117);
+            this.label4.Location = new System.Drawing.Point(11, 129);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(109, 23);
@@ -376,7 +392,7 @@ namespace _3GUI_
             // 
             // txtCCCD
             // 
-            this.txtCCCD.Location = new System.Drawing.Point(146, 178);
+            this.txtCCCD.Location = new System.Drawing.Point(146, 199);
             this.txtCCCD.Margin = new System.Windows.Forms.Padding(4);
             this.txtCCCD.Name = "txtCCCD";
             this.txtCCCD.Size = new System.Drawing.Size(203, 27);
@@ -387,7 +403,7 @@ namespace _3GUI_
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Blue;
-            this.label5.Location = new System.Drawing.Point(11, 178);
+            this.label5.Location = new System.Drawing.Point(11, 199);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 23);
@@ -398,23 +414,36 @@ namespace _3GUI_
             // 
             this.dataGridViewKhachThue.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewKhachThue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewKhachThue.Location = new System.Drawing.Point(15, 3);
+            this.dataGridViewKhachThue.Location = new System.Drawing.Point(15, 28);
             this.dataGridViewKhachThue.Name = "dataGridViewKhachThue";
             this.dataGridViewKhachThue.ReadOnly = true;
             this.dataGridViewKhachThue.RowHeadersWidth = 51;
             this.dataGridViewKhachThue.RowTemplate.Height = 24;
-            this.dataGridViewKhachThue.Size = new System.Drawing.Size(999, 284);
+            this.dataGridViewKhachThue.Size = new System.Drawing.Size(999, 260);
             this.dataGridViewKhachThue.TabIndex = 0;
             this.dataGridViewKhachThue.Click += new System.EventHandler(this.dataGridViewKhachThue_Click);
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.ckbKhachThueHetHan);
             this.panel2.Controls.Add(this.dataGridViewKhachThue);
             this.panel2.Location = new System.Drawing.Point(2, 299);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1018, 293);
+            this.panel2.Size = new System.Drawing.Size(1018, 299);
             this.panel2.TabIndex = 18;
+            // 
+            // ckbKhachThueHetHan
+            // 
+            this.ckbKhachThueHetHan.AutoSize = true;
+            this.ckbKhachThueHetHan.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckbKhachThueHetHan.Location = new System.Drawing.Point(15, 3);
+            this.ckbKhachThueHetHan.Name = "ckbKhachThueHetHan";
+            this.ckbKhachThueHetHan.Size = new System.Drawing.Size(176, 21);
+            this.ckbKhachThueHetHan.TabIndex = 26;
+            this.ckbKhachThueHetHan.Text = "khách Thuê Đã Hết Hạn";
+            this.ckbKhachThueHetHan.UseVisualStyleBackColor = true;
+            this.ckbKhachThueHetHan.CheckedChanged += new System.EventHandler(this.ckbKhachThueHetHan_CheckedChanged);
             // 
             // label1
             // 
@@ -441,13 +470,14 @@ namespace _3GUI_
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frm_KhachThue";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frm_KhachThue";
+            this.Text = "Khách Thuê";
             this.Load += new System.EventHandler(this.frm_KhachThue_Load);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewKhachThue)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,5 +515,7 @@ namespace _3GUI_
         private System.Windows.Forms.ComboBox cbxMaPhong;
         private System.Windows.Forms.RadioButton radioButtonHetThue;
         private System.Windows.Forms.RadioButton radioButtonConThue;
+        private System.Windows.Forms.CheckBox ckbKhachThueHetHan;
+        private System.Windows.Forms.Label label10;
     }
 }

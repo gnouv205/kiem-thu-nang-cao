@@ -46,8 +46,14 @@ namespace _3GUI_
             this.radioButtonTrong = new System.Windows.Forms.RadioButton();
             this.radioButtonThue = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.ckbPhongKhongSD = new System.Windows.Forms.CheckBox();
+            this.ckbPhongThue = new System.Windows.Forms.CheckBox();
             this.dataGridViewPhongTro = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.radioButtonSuDung = new System.Windows.Forms.RadioButton();
+            this.radioButtonKhongSD = new System.Windows.Forms.RadioButton();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -62,6 +68,7 @@ namespace _3GUI_
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhongTro)).BeginInit();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -172,7 +179,7 @@ namespace _3GUI_
             // 
             // txtChuThue
             // 
-            this.txtChuThue.Location = new System.Drawing.Point(494, 17);
+            this.txtChuThue.Location = new System.Drawing.Point(494, 84);
             this.txtChuThue.Margin = new System.Windows.Forms.Padding(4);
             this.txtChuThue.Name = "txtChuThue";
             this.txtChuThue.ReadOnly = true;
@@ -184,7 +191,7 @@ namespace _3GUI_
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Blue;
-            this.label7.Location = new System.Drawing.Point(364, 17);
+            this.label7.Location = new System.Drawing.Point(369, 84);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(98, 23);
@@ -193,11 +200,11 @@ namespace _3GUI_
             // 
             // txtGhiChu
             // 
-            this.txtGhiChu.Location = new System.Drawing.Point(494, 63);
+            this.txtGhiChu.Location = new System.Drawing.Point(494, 120);
             this.txtGhiChu.Margin = new System.Windows.Forms.Padding(4);
             this.txtGhiChu.Multiline = true;
             this.txtGhiChu.Name = "txtGhiChu";
-            this.txtGhiChu.Size = new System.Drawing.Size(203, 120);
+            this.txtGhiChu.Size = new System.Drawing.Size(203, 63);
             this.txtGhiChu.TabIndex = 13;
             // 
             // label8
@@ -205,7 +212,7 @@ namespace _3GUI_
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Blue;
-            this.label8.Location = new System.Drawing.Point(364, 63);
+            this.label8.Location = new System.Drawing.Point(369, 120);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(88, 23);
@@ -217,7 +224,7 @@ namespace _3GUI_
             this.radioButtonTrong.AutoSize = true;
             this.radioButtonTrong.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonTrong.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonTrong.Location = new System.Drawing.Point(146, 199);
+            this.radioButtonTrong.Location = new System.Drawing.Point(280, 198);
             this.radioButtonTrong.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonTrong.Name = "radioButtonTrong";
             this.radioButtonTrong.Size = new System.Drawing.Size(69, 23);
@@ -231,7 +238,7 @@ namespace _3GUI_
             this.radioButtonThue.AutoSize = true;
             this.radioButtonThue.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButtonThue.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.radioButtonThue.Location = new System.Drawing.Point(263, 200);
+            this.radioButtonThue.Location = new System.Drawing.Point(146, 200);
             this.radioButtonThue.Margin = new System.Windows.Forms.Padding(4);
             this.radioButtonThue.Name = "radioButtonThue";
             this.radioButtonThue.Size = new System.Drawing.Size(86, 23);
@@ -242,6 +249,8 @@ namespace _3GUI_
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.ckbPhongKhongSD);
+            this.panel2.Controls.Add(this.ckbPhongThue);
             this.panel2.Controls.Add(this.dataGridViewPhongTro);
             this.panel2.Location = new System.Drawing.Point(0, 301);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
@@ -249,21 +258,47 @@ namespace _3GUI_
             this.panel2.Size = new System.Drawing.Size(1018, 293);
             this.panel2.TabIndex = 3;
             // 
+            // ckbPhongKhongSD
+            // 
+            this.ckbPhongKhongSD.AutoSize = true;
+            this.ckbPhongKhongSD.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckbPhongKhongSD.Location = new System.Drawing.Point(172, 3);
+            this.ckbPhongKhongSD.Name = "ckbPhongKhongSD";
+            this.ckbPhongKhongSD.Size = new System.Drawing.Size(198, 21);
+            this.ckbPhongKhongSD.TabIndex = 27;
+            this.ckbPhongKhongSD.Text = "Phòng Không Còn Sử Dụng ";
+            this.ckbPhongKhongSD.UseVisualStyleBackColor = true;
+            this.ckbPhongKhongSD.CheckedChanged += new System.EventHandler(this.ckbPhongKhongSD_CheckedChanged);
+            // 
+            // ckbPhongThue
+            // 
+            this.ckbPhongThue.AutoSize = true;
+            this.ckbPhongThue.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckbPhongThue.Location = new System.Drawing.Point(15, 3);
+            this.ckbPhongThue.Name = "ckbPhongThue";
+            this.ckbPhongThue.Size = new System.Drawing.Size(151, 21);
+            this.ckbPhongThue.TabIndex = 26;
+            this.ckbPhongThue.Text = "Phòng Còn Đã Thuê";
+            this.ckbPhongThue.UseVisualStyleBackColor = true;
+            this.ckbPhongThue.CheckedChanged += new System.EventHandler(this.ckbPhongTrong_CheckedChanged);
+            // 
             // dataGridViewPhongTro
             // 
             this.dataGridViewPhongTro.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewPhongTro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewPhongTro.Location = new System.Drawing.Point(15, 3);
+            this.dataGridViewPhongTro.Location = new System.Drawing.Point(15, 30);
             this.dataGridViewPhongTro.Name = "dataGridViewPhongTro";
             this.dataGridViewPhongTro.ReadOnly = true;
             this.dataGridViewPhongTro.RowHeadersWidth = 51;
             this.dataGridViewPhongTro.RowTemplate.Height = 24;
-            this.dataGridViewPhongTro.Size = new System.Drawing.Size(999, 284);
+            this.dataGridViewPhongTro.Size = new System.Drawing.Size(999, 257);
             this.dataGridViewPhongTro.TabIndex = 0;
             this.dataGridViewPhongTro.Click += new System.EventHandler(this.dataGridViewPhongTro_Click);
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label10);
+            this.panel3.Controls.Add(this.panel4);
             this.panel3.Controls.Add(this.txtTimKiem);
             this.panel3.Controls.Add(this.label9);
             this.panel3.Controls.Add(this.txtGhiChu);
@@ -287,6 +322,55 @@ namespace _3GUI_
             this.panel3.Size = new System.Drawing.Size(706, 230);
             this.panel3.TabIndex = 4;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.Blue;
+            this.label10.Location = new System.Drawing.Point(369, 14);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(112, 23);
+            this.label10.TabIndex = 19;
+            this.label10.Text = "Hiện Trạng:";
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.radioButtonSuDung);
+            this.panel4.Controls.Add(this.radioButtonKhongSD);
+            this.panel4.Location = new System.Drawing.Point(488, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(218, 74);
+            this.panel4.TabIndex = 18;
+            // 
+            // radioButtonSuDung
+            // 
+            this.radioButtonSuDung.AutoSize = true;
+            this.radioButtonSuDung.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonSuDung.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.radioButtonSuDung.Location = new System.Drawing.Point(6, 12);
+            this.radioButtonSuDung.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonSuDung.Name = "radioButtonSuDung";
+            this.radioButtonSuDung.Size = new System.Drawing.Size(88, 23);
+            this.radioButtonSuDung.TabIndex = 21;
+            this.radioButtonSuDung.TabStop = true;
+            this.radioButtonSuDung.Text = "Sử Dụng";
+            this.radioButtonSuDung.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonKhongSD
+            // 
+            this.radioButtonKhongSD.AutoSize = true;
+            this.radioButtonKhongSD.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonKhongSD.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.radioButtonKhongSD.Location = new System.Drawing.Point(6, 43);
+            this.radioButtonKhongSD.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButtonKhongSD.Name = "radioButtonKhongSD";
+            this.radioButtonKhongSD.Size = new System.Drawing.Size(137, 23);
+            this.radioButtonKhongSD.TabIndex = 20;
+            this.radioButtonKhongSD.TabStop = true;
+            this.radioButtonKhongSD.Text = "Không Sử Dụng";
+            this.radioButtonKhongSD.UseVisualStyleBackColor = true;
+            // 
             // txtTimKiem
             // 
             this.txtTimKiem.Location = new System.Drawing.Point(494, 199);
@@ -300,7 +384,7 @@ namespace _3GUI_
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Red;
-            this.label9.Location = new System.Drawing.Point(364, 198);
+            this.label9.Location = new System.Drawing.Point(369, 198);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(93, 23);
@@ -449,12 +533,15 @@ namespace _3GUI_
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frm_PhongTro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frm_PhongTro";
+            this.Text = "Phòng Trọ";
             this.Load += new System.EventHandler(this.frm_PhongTro_Load);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPhongTro)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -492,5 +579,11 @@ namespace _3GUI_
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.TextBox txtTimKiem;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox ckbPhongThue;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.RadioButton radioButtonSuDung;
+        private System.Windows.Forms.RadioButton radioButtonKhongSD;
+        private System.Windows.Forms.CheckBox ckbPhongKhongSD;
     }
 }

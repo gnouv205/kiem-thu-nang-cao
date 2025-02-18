@@ -41,10 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KhachThue_BUS.cs" />
-    <Compile Include="NguoiDung_BUS.cs" />
-    <Compile Include="PhonTro_BUS.cs" />
+    <Compile Include="1_DangNhap_BUS.cs" />
+    <Compile Include="2_DoiMatKhau_BUS.cs" />
+    <Compile Include="5_KhachThue_BUS.cs" />
+    <Compile Include="3_NguoiDung_BUS.cs" />
+    <Compile Include="4_PhongTro_BUS.cs" />
+    <Compile Include="6_HopDong_BUS.cs" />
+    <Compile Include="7_ViPhamHopDong_BUS.cs" />
+    <Compile Include="8_HoaDon_BUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unitest\DangNhapTest.cs" />
+    <Compile Include="Unitest\DoiMatKhauTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\_1DAL_\_1DAL_.csproj">

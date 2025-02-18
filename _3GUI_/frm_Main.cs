@@ -12,13 +12,61 @@ namespace _3GUI_
 {
     public partial class frm_Main : Form
     {
-        public static string email;
-        public static int ResetForm = 1; // load form
+        public static string email = "";
+
+        public static int seesion = 1;
         public frm_Main()
         {
             InitializeComponent();
             this.IsMdiContainer = true;
         }
+
+        private void PhanQuyen()
+        {
+            if (frm_DangNhap.vaitro == "Quản Trị")
+            {
+                // Nếu là quan ly
+                danhMụcToolStripMenuItem.Visible = true;
+                quảnLýThốngKêToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                // Nếu là nhân viên thông thường
+                danhMụcToolStripMenuItem.Visible = false;
+                tàiKhoảnToolStripMenuItem.Visible = true;
+                phòngTrọToolStripMenuItem.Visible = true;
+                kháchThuêToolStripMenuItem.Visible = false;
+
+                thốngKêHóaĐơnToolStripMenuItem.Visible = false;
+                hóaĐơnToolStripMenuItem.Visible = false;
+                thốngKêHóaĐơnToolStripMenuItem.Visible = false;
+
+            }
+        }
+
+        void GiaTriBanDau()
+        {
+            if(seesion == 1)
+            {
+                đăngXuấtToolStripMenuItem1.Visible = false;
+                ĐổiMậtKhẩuToolStripMenuItem.Visible = false;
+                danhMụcToolStripMenuItem.Visible = false;
+                quảnLýThốngKêToolStripMenuItem.Visible = false;
+                tàiKhoảnĐăngNhậpToolStripMenuItem.Visible = false;
+                đăngNhậpToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                label1.Visible = false;
+                tàiKhoảnĐăngNhậpToolStripMenuItem.Visible = true;
+                tàiKhoảnĐăngNhậpToolStripMenuItem.Text = "Chao " + email;
+                đăngXuấtToolStripMenuItem1.Visible = true;
+                ĐổiMậtKhẩuToolStripMenuItem.Visible = true;
+                đăngNhậpToolStripMenuItem.Visible = false;
+                PhanQuyen();
+            }
+        }
+
 
         #region Hoạt Động của form con
 
@@ -45,7 +93,7 @@ namespace _3GUI_
             }
         }
 
-        private void MoForm(Form form)
+        public void MoForm(Form form)
         {
             DongForm();
 
@@ -72,14 +120,15 @@ namespace _3GUI_
         #endregion
 
 
-
+        #region Chuc Nang
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
         {
             frm_Main_Load(sender, e);
         }
+
         private void frm_Main_Load(object sender, EventArgs e)
         {
-            ResetForm = 1;
+            GiaTriBanDau();
         }
 
         private void tàiKhoảnToolStripMenuItem_Click(object sender, EventArgs e)
@@ -95,6 +144,59 @@ namespace _3GUI_
         private void kháchThuêToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MoForm(new frm_KhachThue());
+        }
+
+        private void đăngNhậpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoForm(new frm_DangNhap());
+        }
+
+        private void ĐổiMậtKhẩuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoForm(new frm_DoiMatKhau());
+        }
+        private void hợpĐồngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoForm(new frm_HopDong());
+        }
+
+        private void hóaĐơnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoForm(new frm_HoaDon());
+        }
+
+        private void thôngTinSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            label1.Visible = false;
+            MoForm(new frm_GioiThieu());
+        }
+
+        private void hướngDẫnSửDụngToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void đăngXuấtToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            seesion = 1;
+            DongForm();
+            frm_Main_Load(sender, e);
+        }
+
+        private void thoátToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void hủyHợpĐồngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoForm(new frm_ViPham());
+        }
+        #endregion
+
+        private void thốngKêHóaĐơnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoForm(new frm_ThongKeHoaDon());
         }
     }
 }

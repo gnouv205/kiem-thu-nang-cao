@@ -35,20 +35,48 @@ namespace _1DAL_
             return false;
         }
 
-        public static DataTable DanhSachKhachThue()
+        private static DataTable DanhSachKhachThue(string proc)
         {
             try
             {
-                using(SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlConnection con = DuongDanKetNoi.KetNoi())
                 using (SqlCommand cmd = con.CreateCommand())
                 {
                     con.Open();
-                    cmd.CommandText = "SP_DanhSachKhach";
+                    cmd.CommandText = proc;
                     cmd.CommandType = CommandType.StoredProcedure;
                     DataTable danhsachkhach = new DataTable();
                     danhsachkhach.Load(cmd.ExecuteReader());
                     return danhsachkhach;
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+            }
+            return null;
+        }
+
+  
+
+        public static DataTable DanhSachKhachConThue()
+        {
+            try
+            {
+                return DanhSachKhachThue("SP_DanhSachKhach");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+            }
+            return null;
+        }
+
+        public static DataTable DanhSachKhachHetHan()
+        {
+            try
+            {
+                return DanhSachKhachThue("SP_DanhSachKhachHetHan");
             }
             catch (Exception ex)
             {
@@ -104,6 +132,38 @@ namespace _1DAL_
             return null;
         }
 
+        public static string DanSachMaPhongCuaKhach(string makhach)
+        {
+            try
+            {
+                using (SqlConnection con = DuongDanKetNoi.KetNoi())
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    con.Open();
+                    cmd.CommandText = "SP_DanhSachMaPhongTheoMaKhach";
+                    cmd.Parameters.AddWithValue("@makhach", makhach);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Giả sử cột trả về có tên là "MaPhong"
+                            return reader["MaPhong"].ToString();
+                        }
+                        else
+                        {
+                            return null; // Không có dữ liệu trả về
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+            }
+            return null;
+        }
+
         public static bool ThemKhach(Khach_Thue_DTO khach)
         {
             try
@@ -149,11 +209,16 @@ namespace _1DAL_
             return false;
         }
 
-        public static bool XoaKhach(string makhach)
+        public static bool XoaKhach(string makhach, string maphong)
         {
             try
             {
-                return ExecuteNonQuery("SP_XoaKhach", new SqlParameter("@makhach", makhach));
+                SqlParameter[] parameters =
+                {
+                    new SqlParameter("@makhach", makhach),
+                    new SqlParameter("@maphong", maphong)
+                }; 
+                return ExecuteNonQuery("SP_XoaKhach", parameters);
             }
             catch (Exception ex)
             {
@@ -162,7 +227,7 @@ namespace _1DAL_
             return false;
         }
 
-        public static bool KiemTraTonTaiKhach(string tenkhach)
+        public static bool KiemTraTonTaiKhach(string tenkhach, string cccd)
         {
             try
             {
@@ -172,6 +237,7 @@ namespace _1DAL_
                     con.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@tenkhach", tenkhach);
+                    cmd.Parameters.AddWithValue("@cccd", cccd);
                     if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
                         return true;
                 }

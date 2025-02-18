@@ -13,7 +13,7 @@ namespace _1DAL_
         {
             try
             {
-                SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-QUOC-TH\SQLSERVER2019;Initial Catalog=QuanLyNhaTro;Integrated Security=True");
+                SqlConnection con = new SqlConnection(@"Data Source=LAPTOP-BE27PHRL\SQLEXPRESS;Initial Catalog=QuanLyNhaTro;User ID=sa;Password=12345");
                 return con;
             }
             catch (Exception ex)

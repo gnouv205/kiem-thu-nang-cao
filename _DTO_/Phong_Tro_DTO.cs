@@ -13,7 +13,8 @@ namespace _DTO_
 		private string tenPhong;
 		private string dienTich;
 		private float gia;
-		private int tinhTrang;
+		private string tinhTrang;
+		private string hienTrang;
 		private string ghiChu;
 		private string maNguoiDung;
 		private string email;
@@ -23,12 +24,13 @@ namespace _DTO_
 		public string TenPhong { get => tenPhong; set => tenPhong = value; }
 		public string DienTich { get => dienTich; set => dienTich = value; }
 		public float Gia { get => gia; set => gia = value; }
-		public int TinhTrang { get => tinhTrang; set => tinhTrang = value; }
+		public string TinhTrang { get => tinhTrang; set => tinhTrang = value; }
 		public string GhiChu { get => ghiChu; set => ghiChu = value; }
 		public string MaNguoiDung { get => maNguoiDung; set => maNguoiDung = value; }
         public string Email { get => email; set => email = value; }
+        public string HienTrang { get => hienTrang; set => hienTrang = value; }
 
-        public Phong_Tro_DTO(int id, string maphong, string tenphong, string dientich, float gia, int tinhtrang, string ghichu, string manguoidung,string email)
+        public Phong_Tro_DTO(int id, string maphong, string tenphong, string dientich, float gia, string tinhtrang, string hientrang, string ghichu, string manguoidung,string email)
 		{
 			this.Id = id;
 			this.MaPhong = maphong;
@@ -36,6 +38,7 @@ namespace _DTO_
 			this.DienTich = dientich;
 			this.Gia = gia;
 			this.TinhTrang = tinhtrang;
+			this.HienTrang = hientrang;
 			this.GhiChu = ghichu;
 			this.MaNguoiDung = manguoidung;
 			this.Email = email;

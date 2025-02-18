@@ -11,8 +11,8 @@ create table ChuSoHuu
 	Email nvarchar(100) not null,
 	SoDienThoai nvarchar(15) not null,
 	DiaChi nvarchar(100) not null,
-	VaiTro tinyint default 1, -- 1 nhan vien, 0 admin
-	TinhTrang tinyint default 1, -- 1 khong , 0 co
+	VaiTro nvarchar(50) not null, 
+	TinhTrang nvarchar(50) not null, 
 	MatKhau nvarchar(50) not null
 	Constraint PK_NguoiDung primary key(MaNguoiDung)
 )
@@ -25,7 +25,8 @@ create table PhongTro
 	TenPhong nvarchar(50)not null,
 	DienTich nvarchar(20) not null,
 	Gia float not null,
-	TinhTrang tinyint default 1,-- 1 la trong, 0 la da thue
+	TinhTrang  nvarchar(50),
+	HienTrang nvarchar(50),
 	MaNguoiDung varchar(20) not null,
 	GhiChu nvarchar(100)not null
 	Constraint PK_PT primary key(MaPhong)
@@ -74,8 +75,10 @@ create table ViPhamHopDong
 	NguoiViPham nvarchar(50) not null,
 	NoiDungViPham nvarchar(100) not null,
 	NgayViPham nvarchar(50) not null,
+	NgayHuy nvarchar(50) not null,
 	BienPhapXuLy nvarchar(100) not null,
-	TienBoiThuong nvarchar(50) not null
+	TienBoiThuong float not null,
+	TinhTrang nvarchar(50) not null
 )
 go
 
@@ -90,7 +93,9 @@ create table HoaDonThang
 	TienDien float not null,
 	TienNuoc float not null,
 	GiaPhong float not null,
+	TinhTrang  nvarchar(50) not null,
 	TongTien float not null,
+	NgayXuatHoaDon nvarchar(50) not null
 )
 go
 
@@ -106,9 +111,6 @@ alter table HoaDonThang add Constraint FK_HDT_KT foreign key (MaKhach) REFERENCE
 alter table HoaDonThang add Constraint FK_HDT_PT foreign key (MaPhong) REFERENCES PhongTro(MaPhong)
 
 alter table ViPhamHopDong add constraint FK_VP_HD foreign key (MaHopDong) references HopDong(MaHopDong)
-alter table ViPhamHopDong add constraint FK_VP_ND foreign key (MaNguoiDung) references ChuSoHuu(MaNguoiDung)
-alter table ViPhamHopDong add constraint FK_VP_KT foreign key (MaKhach) references KhachThue(MaKhach)
-alter table ViPhamHopDong add constraint FK_VP_PT foreign key (MaPhong) references PhongTro(MaPhong)
 go
 
 --===========================================================================================
@@ -161,7 +163,7 @@ begin
 
 	if (@old = @oldpass)
 		begin
-		update NguoiDung set MatKhau = @newpass where Email = @email
+		update ChuSoHuu set MatKhau = @newpass where Email = @email
 		return 1
 		end
 	else 
@@ -184,6 +186,23 @@ begin
 	VaiTro,
 	TinhTrang
 	from ChuSoHuu
+	where TinhTrang = N'Hoạt Động'
+end
+go
+
+create proc SP_DanhSachNguoiDungNgungHoatDong
+as
+begin
+	select 
+	MaNguoiDung,
+	TenNguoiDung,
+	Email,
+	SoDienThoai,
+	DiaChi,
+	VaiTro,
+	TinhTrang
+	from ChuSoHuu
+	where TinhTrang = N'Ngừng Hoạt Động'
 end
 go
 
@@ -193,8 +212,8 @@ create proc SP_ThemtaiKhoan
 @email nvarchar(50),
 @sodienthoai nvarchar(15),
 @diachi nvarchar(100),
-@vaitro tinyint,
-@tinhtrang tinyint,
+@vaitro nvarchar(50),
+@tinhtrang nvarchar(50),
 @matkhau nvarchar(50)
 as
 begin
@@ -216,10 +235,11 @@ create proc SP_SuaTaiKhoan
 @email nvarchar(50),
 @sodienthoai nvarchar(15),
 @diachi nvarchar(100),
-@vaitro tinyint,
-@tinhtrang tinyint
+@vaitro nvarchar(50),
+@tinhtrang nvarchar(50)
 as
 begin
+	 
 	update ChuSoHuu 
 	set TenNguoiDung = @tennguoidung, Email = @email, SoDienThoai = @sodienthoai, DiaChi = @diachi, VaiTro = @vaitro ,TinhTrang = @tinhtrang
 	where MaNguoiDung = @manguoidung
@@ -231,20 +251,20 @@ create proc SP_XoaTaiKhoan
 @manguoidung varchar(20)
 as
 begin
-	delete ChuSoHuu 
-	where MaNguoiDung = @manguoidung
+	update ChuSoHuu set TinhTrang = N'Ngừng Hoạt Động' where MaNguoiDung = @manguoiDung
 end
 go
 
 -- tìm kiểm 
 create proc SP_TimKiemTaiKhoan
-@tennguoidung nvarchar(100)
+@tennguoidung nvarchar(100),
+@sodienthoai nvarchar(15)
 as
 begin
 		set nocount on;
 		select MaNguoiDung, TenNguoiDung, Email, SoDienThoai, DiaChi, VaiTro, TinhTrang 
 		from ChuSoHuu
-		where TenNguoiDung like '%' + @tennguoidung + '%'
+		where TenNguoiDung like '%' + @tennguoidung + '%' or SoDienThoai like '%'+@sodienthoai+'%'
 end
 go
 
@@ -276,9 +296,43 @@ begin
 	DienTich,
 	Gia ,
 	TinhTrang,
+	HienTrang,
 	MaNguoiDung,
 	GhiChu 
 	from phongtro 
+	where TinhTrang = N'Đã Thuê'
+end
+go
+
+create proc SP_DanhSachPhongTrong
+as
+begin
+	select MaPhong,
+	TenPhong,
+	DienTich,
+	Gia ,
+	TinhTrang,
+	Hientrang,
+	MaNguoiDung,
+	GhiChu 
+	from phongtro 
+	where TinhTrang = N'Trống' and hientrang = N'Sử Dụng'
+end
+go
+
+create proc SP_DanhSachPhongKhongSuDung
+as
+begin
+	select MaPhong,
+	TenPhong,
+	DienTich,
+	Gia ,
+	TinhTrang,
+	Hientrang,
+	MaNguoiDung,
+	GhiChu 
+	from phongtro 
+	where hientrang = N'Không Sử Dụng'
 end
 go
 
@@ -287,7 +341,8 @@ create proc SP_ThemPhong
 @tenphong nvarchar(50),
 @dientich nvarchar(50),
 @gia nvarchar(100),
-@tinhtrang tinyint,
+@tinhtrang nvarchar(50),
+@hientrang nvarchar(50),
 @ghichu nvarchar(100),
 @email nvarchar(100)
 as
@@ -301,8 +356,8 @@ begin
 
 	select @manguoidung = MaNguoiDung from ChuSoHuu where Email = @email
 
-	insert into PhongTro(MaPhong, TenPhong, DienTich, Gia, TinhTrang, MaNguoiDung, GhiChu) 
-	values(@maphong, @tenphong, @dientich, @gia, @tinhtrang, @manguoidung, @ghichu)
+	insert into PhongTro(MaPhong, TenPhong, DienTich, Gia, TinhTrang, HienTrang, MaNguoiDung, GhiChu) 
+	values(@maphong, @tenphong, @dientich, @gia, @tinhtrang, @hientrang, @manguoidung, @ghichu)
 
 end
 go
@@ -313,7 +368,8 @@ create proc SP_SuaPhong
 @tenphong nvarchar(50),
 @dientich nvarchar(50),
 @gia nvarchar(100),
-@tinhtrang tinyint,
+@tinhtrang nvarchar(50),
+@hientrang nvarchar(50),
 @ghichu nvarchar(100),
 @email nvarchar(50)
 as
@@ -322,8 +378,9 @@ begin
 	select @manguoidung = MaNguoiDung from ChuSoHuu where Email = @email
 
 	update PhongTro
-	set TenPhong = @tenphong, DienTich = @dientich, Gia = @gia, TinhTrang = @tinhtrang, MaNguoiDung = @manguoidung ,GhiChu = @ghichu
+	set TenPhong = @tenphong, DienTich = @dientich, Gia = @gia, TinhTrang = @tinhtrang, HienTrang = @hientrang, MaNguoiDung = @manguoidung ,GhiChu = @ghichu
 	where MaPhong = @maphong
+
 end
 go
 
@@ -332,8 +389,7 @@ create proc SP_XoaPhong
 @maphong varchar(20)
 as
 begin
-	delete PhongTro 
-	where MaPhong = @maphong
+	update PhongTro set HienTrang = N'Không Sử Dụng' where MaPhong = @maphong
 end
 go
 
@@ -343,9 +399,9 @@ create proc SP_TimKiemPhong
 as
 begin
 	set nocount on;
-	select MaPhong, TenPhong, DienTich, Gia, TinhTrang, MaNguoiDung, GhiChu
+	select MaPhong, TenPhong, DienTich, Gia, TinhTrang, HienTrang, MaNguoiDung, GhiChu
 	from PhongTro
-	where TenPhong like '%' + @tenPhong + '%'
+	where TenPhong like '%' + @tenPhong + '%' 
 end
 go
 
@@ -379,11 +435,28 @@ begin
 	MaNguoiDung,
 	MaPhong
 	from KhachThue
+	where TinhTrang = N'Còn Thuê'
+end
+go
+
+create proc SP_DanhSachKhachHetHan
+as
+begin
+	select
+	MaKhach,
+	TenKhach,
+	SoDienThoai,
+	CCCD,
+	TinhTrang,
+	MaNguoiDung,
+	MaPhong
+	from KhachThue
+	where TinhTrang = N'Hết Hạn'
 end
 go
 
 --them khach
-alter proc SP_ThemKhach
+create proc SP_ThemKhach
 @tenKhach nvarchar(50),
 @sodienthoai nvarchar(15),
 @cccd nvarchar(20),
@@ -397,7 +470,7 @@ begin
 	declare @id int
 
 	select @id = ISNULL(MAX(id),0) + 1 from KhachThue
-	select @makhach = 'MP_' + RIGHT('0000' + CAST(@id as nvarchar(4)),4)
+	select @makhach = 'MK_' + RIGHT('0000' + CAST(@id as nvarchar(4)),4)
 
 	select @manguoidung = MaNguoiDung from ChuSoHuu where email = @email
 
@@ -405,11 +478,10 @@ begin
 	values (@makhach, @tenKhach, @sodienthoai, @cccd, @tinhtrang, @manguoidung, @maphong)
 
 	update PhongTro 
-	set TinhTrang = 0 where MaPhong = @maphong
+	set TinhTrang = N'Đã Thuê' where MaPhong = @maphong
 
 end
 go
-
 -- sua khach
 create proc SP_SuaKhach
 @makhach varchar(20),
@@ -421,44 +493,59 @@ create proc SP_SuaKhach
 @email nvarchar(50)
 as 
 begin
+	DECLARE @maphonghientai VARCHAR(20)
+	SELECT @maphonghientai = MaPhong FROM KhachThue WHERE MaKhach = @makhach -- lấy ra phòng hiện tại
+
 	declare @manguoidung varchar(20)
 	select @manguoidung = MaNguoiDung from ChuSoHuu where Email = @email
 	
 	update KhachThue
 	set TenKhach = @tenKhach, SoDienThoai = @sodienthoai, CCCD = @cccd, TinhTrang = @tinhtrang, MaNguoiDung = @manguoidung, MaPhong = @maphong
 	where MaKhach = @makhach
+
+	if(@maphonghientai <> @maphong)
+		update PhongTro SET tinhtrang = N'Trống' WHERE MaPhong = @maphonghientai;
+
+	if(@tinhtrang = N'Hết Hạn')
+		update phongtro set tinhtrang = N'Trống' where MaPhong = @maphong
+	else 
+		update phongtro set tinhtrang = N'Đã Thuê' where MaPhong = @maphong
 	
 end
 go
 
 --xoa khach
 create proc SP_XoaKhach
-@makhach varchar(20)
+@makhach varchar(20),
+@maphong varchar(20)
 as
 begin
-	delete KhachThue 
-	where MaKhach = @makhach
+	update KhachThue set TinhTrang = N'Hết Hạn' where MaKhach = @makhach
+	update PhongTro 
+	set TinhTrang = N'Trống' where MaPhong = @maphong
 end
 go
 
 -- tim kiem
 create proc SP_TimKiemTenKhach
-@tenkhach nvarchar(50)
+@tenkhach nvarchar(50),
+@sodienthoai nvarchar(15)
 as
 begin
 	set nocount on;
 	select MaKhach , TenKhach, SoDienThoai, CCCD, TinhTrang, MaNguoiDung, MaPhong
 	from KhachThue
-	where TenKhach like '%' + @tenkhach + '%'
+	where TenKhach like '%' + @tenkhach + '%' or SoDienThoai like '%' + @sodienthoai + '%'
 end
 go
 
 create proc SP_KiemTraKhachTonTai
-@tenkhach nvarchar(50)
+@tenkhach nvarchar(50),
+@cccd nvarchar(20)
 as
 begin
 	declare @status int = 0
-	if(exists(select * from KhachThue where TenKhach = @tenkhach))
+	if(exists(select * from KhachThue where TenKhach = @tenkhach and CCCD = @cccd and TinhTrang = N'Còn Thuê'))
 		set @status = 1
 	else
 		set @status = 0
@@ -474,41 +561,53 @@ go
 create proc SP_DanhSachHopDong
 as
 begin
-	select MaHopDong, MaNguoiDung, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, ChiSoDien, ChiSoNuoc, TienCoc, TienThue 
+	select MaHopDong, MaNguoiDung, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, ChiSoDien, ChiSoNuoc, TienCoc, TienThue, TinhTrang
 	from HopDong
+	where TinhTrang = N'Còn Hạn'
+end
+go
+
+create proc SP_DanhSachHopDongHetHan
+as
+begin
+	select MaHopDong, MaNguoiDung, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, ChiSoDien, ChiSoNuoc, TienCoc, TienThue, TinhTrang
+	from HopDong
+	where TinhTrang = N'Hết Hạn'
 end
 go
 
 -- them hop dong
 create proc SP_ThemHopDong
-@manguoidung nvarchar(50),
 @makhach nvarchar(50),
 @maphong nvarchar(50),
 @ngaybatdau nvarchar(50),
 @ngayketthuc nvarchar(50),
-@chisoDien nvarchar(50),
+@chisodien nvarchar(50),
 @chisonuoc nvarchar(50),
 @tiencoc nvarchar(50),
-@tienthue nvarchar(50)
+@tienthue nvarchar(50),
+@tinhtrang nvarchar(50),
+@email nvarchar(50)
 as
 begin
 	declare @id int 
 	declare @mahopdong varchar(20)
+	declare @manguoidung varchar(50)
 	
-	select @id = ISNULL(MAX(id),0) + 1 from KhachThue
+	select @id = ISNULL(MAX(id),0) + 1 from HopDong
 	select @mahopdong = 'HD_' + RIGHT('0000' + CAST(@id as nvarchar(4)),4)
+	select @manguoidung = MaNguoiDung from ChuSoHuu where email = @email
 
 	insert into HopDong 
-	(MaHopDong, MaNguoiDung, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, ChiSoDien, ChiSoNuoc, TienCoc, TienThue)
+	(MaHopDong, MaNguoiDung, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, ChiSoDien, ChiSoNuoc, TienCoc, TienThue, TinhTrang)
 	values 
-	(@mahopdong, @manguoidung, @makhach, @maphong, @ngaybatdau, @ngayketthuc, @chisoDien, @chisonuoc, @tiencoc, @tienthue)
+	(@mahopdong, @manguoidung, @makhach, @maphong, @ngaybatdau, @ngayketthuc, @chisodien, @chisonuoc, @tiencoc, @tienthue, @tinhtrang)
 end
 go
 
 -- sua hop dong
 create proc SP_SuahopDong
 @mahopdong varchar(20),
-@manguoidung nvarchar(50),
 @makhach nvarchar(50),
 @maphong nvarchar(50),
 @ngaybatdau nvarchar(50),
@@ -516,12 +615,16 @@ create proc SP_SuahopDong
 @chisoDien nvarchar(50),
 @chisonuoc nvarchar(50),
 @tiencoc nvarchar(50),
-@tienthue nvarchar(50)
+@tienthue nvarchar(50),
+@tinhtrang nvarchar(50),
+@email nvarchar(50)
 as
 begin
+	declare @manguoidung varchar(50)
+	select @manguoidung = MaNguoiDung from ChuSoHuu where email = @email
+
 	update HopDong
 	set 
-	MaNguoiDung = @manguoidung,
 	MaKhach = @makhach,
 	MaPhong = @maphong,
 	NgayBatDau = @ngaybatdau,
@@ -529,7 +632,8 @@ begin
 	ChiSoDien = @chisoDien,
 	ChiSoNuoc = @chisonuoc,
 	TienCoc = @tiencoc,
-	TienThue = @tienthue
+	TienThue = @tienthue,
+	TinhTrang = @tinhtrang
 	where MaHopDong = @mahopdong
 end
 go
@@ -539,59 +643,93 @@ create proc SP_XoaHopDong
 @mahopdong varchar(20)
 as
 begin
-	delete HopDong where MaHopDong = @mahopdong
+	update HopDong set TinhTrang = N'Hết Hạn'
 end
 go
 
 -- tiem kiem
 create proc SP_TimKiemHopDong
-@mahopdong varchar(20)
+@NgayBatDau nvarchar(50),
+@makhach varchar(20)
 as
 begin
-	select MaHopDong, MaNguoiDung, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, ChiSoDien, ChiSoNuoc, TienCoc, TienThue
+	select MaHopDong, MaNguoiDung, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, ChiSoDien, ChiSoNuoc, TienCoc, TienThue, TinhTrang
 	from HopDong
-	where MaHopDong like '%' + @mahopdong + '%'
+	where NgayBatDau like '%' + @NgayBatDau + '%' or MaKhach like '%' + @makhach + '%'
 end
 go
 
 --kiem tr ton tai
 create proc SP_KiemTraHopDongTonTai
-@mahopdong varchar(20)
+@makhach varchar(20)
 as
 begin
 	declare @status int
-	if(exists(select * from dbo.HopDong where MaHopDong = @mahopdong))
+	if(exists(select * from dbo.HopDong where  MaKhach = @makhach and TinhTrang = N'Còn Hạn'))
 		set @status = 1
 	else 
 		set @status = 0
 	select @status
 end
 go
+
 --===========================================================================================
 --=================================== Sự Kiện Hóa Đơn =======================================
 -- Table Hóa đơn tháng
 -- Load list hóa đơn tháng
 
-CREATE PROC SP_HoaDonThang
+create proc SP_DanhSachHoaDonDaThuTheoNgayXuat
+@ngayxuathoadon nvarchar(50)
+as
+begin
+	select  MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, Giaphong, TinhTrang ,TongTien, NgayXuatHoaDon
+	from HoaDonThang
+	where NgayXuatHoaDon = @ngayxuathoadon and TinhTrang = N'Đã Thu'
+end
+go
+
+create proc SP_DanhSachHoaDonChuaThuTheoNgayXuat
+@ngayxuathoadon nvarchar(50)
+as
+begin
+	select  MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, Giaphong, TinhTrang ,TongTien, NgayXuatHoaDon
+	from HoaDonThang
+	where NgayXuatHoaDon = @ngayxuathoadon and TinhTrang = N'Chưa Thu'
+end
+go
+
+
+create PROC SP_HoaDonThang
 AS 
 BEGIN
-	select MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, Giaphong, TongTien
-	from HoaDonThang
+	select MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, Giaphong, TinhTrang ,TongTien, NgayXuatHoaDon
+	from HoaDonThang 
+	where TinhTrang = N'Đã Thu'
 END
 GO
 
+create PROC SP_HoaDonThangHetHan
+AS 
+BEGIN
+	select MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, Giaphong, TinhTrang, TongTien,NgayXuatHoaDon
+	from HoaDonThang 
+	where TinhTrang = N'Chưa Thu'
+END
+GO
 
 -- Insert hóa đơn
 -- Alter stored procedure for inserting customer
-CREATE PROC SP_ThemHoaDon
+create PROC SP_ThemHoaDon
 @makhach VARCHAR(50),
 @maphong VARCHAR(100),
-@NgayBatDau DATE,
-@NgayKetThuc DATE,
+@NgayBatDau nvarchar(50),
+@NgayKetThuc nvarchar(50),
 @TienDien FLOAT,
 @TienNuoc FLOAT,
 @GiaPhong FLOAT,
-@TongTien FLOAT
+@tinhtrang nvarchar(20),
+@TongTien FLOAT,
+@ngayxuatHoadon nvarchar(50)
 AS
 BEGIN
 	declare @MaHoaDon VARCHAR(11)
@@ -599,78 +737,117 @@ BEGIN
     SELECT @ID = ISNULL(MAX(Id), 0) + 1 FROM HoaDonThang
 
 	select @MaHoaDon = 'HDT_' + RIGHT('0000' + CAST(@id as nvarchar(4)),4)
+	select @maphong = MaPhong from KhachThue where MaKhach = @makhach 
 
-    INSERT INTO HoaDonThang(MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, GiaPhong, TongTien)
-    VALUES (@MaHoaDon, @makhach, @maphong, @NgayBatDau, @NgayKetThuc, @TienDien, @TienNuoc, @GiaPhong, @TongTien);
+    INSERT INTO HoaDonThang(MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, GiaPhong, TinhTrang ,TongTien, NgayXuatHoaDon)
+    VALUES (@MaHoaDon, @makhach, @maphong, @NgayBatDau, @NgayKetThuc, @TienDien, @TienNuoc, @GiaPhong, @tinhtrang, @TongTien, @ngayxuatHoadon);
 END
 GO
 
 -- Delete Hóa đơn
-CREATE PROC SP_XoaHoaDon
+create PROC SP_XoaHoaDon
 @MaHoaDon VARCHAR(11)
 AS 
 BEGIN
-	 DELETE FROM HoaDonThang
-	 WHERE MaHoaDon = @MaHoaDon
+	update HoaDonThang set TinhTrang = N'Đã Thu' where MaHoaDon = @MaHoaDon
 END
 GO
 
 -- Update Hóa đơn
-CREATE PROCEDURE SP_SuaHoaDon
+create PROCEDURE SP_SuaHoaDon
 @MaHoaDon VARCHAR(11),
 @makhach VARCHAR(50),
 @maphong VARCHAR(100),
-@NgayBatDau DATE,
-@NgayKetThuc DATE,
+@NgayBatDau nvarchar(50),
+@NgayKetThuc nvarchar(50),
 @TienDien FLOAT,
 @TienNuoc FLOAT,
 @GiaPhong FLOAT,
-@TongTien FLOAT
+@tinhtrang nvarchar(20),
+@TongTien FLOAT,
+@ngayxuatHoadon nvarchar(50)
 AS
 BEGIN
     UPDATE HoaDonThang 
-    SET MaKhach = @makhach, MaPhong = @maphong
- , NgayBatDau = @NgayBatDau, NgayKetThuc = @NgayKetThuc
- , TienDien = @TienDien, TienNuoc = @TienNuoc, GiaPhong = @GiaPhong
- , TongTien = @TongTien
+    SET 
+	MaKhach = @makhach, 
+	MaPhong = @maphong, 
+	NgayBatDau = @NgayBatDau, 
+	NgayKetThuc = @NgayKetThuc,
+    TienDien = @TienDien, 
+	TienNuoc = @TienNuoc, 
+	GiaPhong = @GiaPhong,
+	TinhTrang = @tinhtrang,
+    @TongTien = @TienDien + @TienNuoc + @GiaPhong,
+	TongTien = @TongTien,
+	ngayxuatHoadon = @ngayxuatHoadon
     WHERE MaHoaDon = @MaHoaDon;
 END;
 GO
 
 --Tim kiem hoa don
 create proc SP_TimKiemHoaDon
-@mahoadon nvarchar(50)
+@maphong nvarchar(50)
 as
 begin
-	select  MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, Giaphong, TongTien
+	select  MaHoaDon, MaKhach, MaPhong, NgayBatDau, NgayKetThuc, TienDien, TienNuoc, Giaphong, TinhTrang,TongTien, NgayXuatHoaDon
 	from HoaDonThang
-	where MaHoaDon like '%' + @mahoadon + '%'
+	where MaPhong like '%' + @maphong + '%'
 end
 go
 
+create proc SP_KiemTraHoaDon
+@ngaybatdau nvarchar(50),
+@ngayketthuc nvarchar(50),
+@makhach varchar(20)
+as
+begin
+	declare @status int
+	if(exists(select * from dbo.HoaDonThang where MaKhach = @makhach and NgayBatDau = @ngaybatdau and NgayKetThuc = @ngayketthuc ))
+		set @status = 1
+	else 
+		set @status = 0
+	select @status
+end
+go
 --===========================================================================================
 --=================================== Lấy Danh Sach Mã ======================================
+
 create proc SP_DanhSachMaNguoiDung
 as
 begin
-	select MaNguoiDung from ChuSoHuu
+	select MaNguoiDung from ChuSoHuu where tinhtrang = N'Hoạt Động'
 end
 go
 
 create proc SP_DanhSachMaKhach
 as
 begin
-	select MaKhach from KhachThue
+	select MaKhach from KhachThue where tinhtrang = N'Còn Thuê' 
+end
+go
+create proc SP_DanhSachMaPhongTheoMaKhach
+@maKhach varchar(20)
+as
+begin
+	select maphong from KhachThue where MaKhach = @maKhach
+end
+go
+
+create proc SP_DanhSachGiaPhong
+@maPhong varchar(20)
+as
+begin
+	select gia from PhongTro where MaPhong = @maPhong
 end
 go
 
 create proc SP_DanhSachMaPhong
 as
 begin
-	select maphong from PhongTro
+	select MaPhong from PhongTro where HienTrang = N'Sử Dụng'
 end
 go
-
 --===========================================================================================
 --============================= Lấy ra Vai Trò Tình Trạng ===================================
 
@@ -701,11 +878,154 @@ begin
 end
 go
 
+create proc SP_HienTrangPhong
+@maphong varchar(50)
+as
+begin
+	select HienTrang from PhongTro where MaPhong = @maphong
+end
+go
+
 -- tình trạng của khách: kiểm tra khách này còn thuê không. để lập hợp đồng
 create proc SP_TinhTrangKhachThue
 @makhach varchar(50)
 as
 begin
 	select TinhTrang from KhachThue where MaKhach = @makhach
+end
+go
+
+create proc SP_TinhTrangHoaDon
+@makhach varchar(50)
+as
+begin
+	select TinhTrang from HoaDonThang where MaKhach = @makhach
+end
+go
+
+--===========================================================================================
+--============================= Lấy Thông tin hop dong ===================================
+create proc SP_MaHopDong
+@mahopdong varchar(20)
+as
+begin
+	select MaHopDong from HopDong where MaHopDong = @mahopdong
+end
+go
+
+create proc SP_MaNguoiDungHopDong
+@mahopdong varchar(20)
+as
+begin
+	select MaNguoiDung from HopDong where MaHopDong = @mahopdong
+end
+go
+
+create proc SP_MakhachHopDong
+@mahopdong varchar(20)
+as
+begin
+	select MaKhach from HopDong where MaHopDong = @mahopdong
+end
+go
+
+create proc SP_MaPhongHopDong
+@mahopdong varchar(20)
+as
+begin
+	select MaPhong from HopDong where MaHopDong = @mahopdong
+end
+go
+
+--===========================================================================================
+--================================= Sự Kiện Hủy Hợp Đồng ====================================
+-- danh sach hop doi tuong hop dong
+create proc SP_DanhSachHuyHopDong
+as
+begin
+	select MaViPham, MaHopDong, MaNguoiDung, MaKhach, MaPhong, NguoiViPham, NoiDungViPham, NgayViPham, NgayHuy, BienPhapXuLy, TienBoiThuong, TinhTrang from ViPhamHopDong where TinhTrang = N'Hủy'
+end 
+go
+create proc SP_DanhSachChuaHuyHopDong
+as
+begin
+	select MaViPham, MaHopDong, MaNguoiDung, MaKhach, MaPhong, NguoiViPham, NoiDungViPham, NgayViPham, NgayHuy, BienPhapXuLy, TienBoiThuong, TinhTrang from ViPhamHopDong where TinhTrang = N'Chưa Hủy'
+end 
+go
+
+
+create proc SP_XacNhanHuyHopDong
+@mavipham varchar(20),
+@mahopdong varchar(20),
+@manguoidung varchar(20),
+@makhach varchar(20),
+@maphong varchar(20),
+@nguoivipham nvarchar(20),
+@noidungvipham nvarchar(100),
+@ngayvipham nvarchar(50),
+@ngayhuy nvarchar(50),
+@bienphapxuly nvarchar(100),
+@tienboithuong float,
+@tinhtrang nvarchar(50)
+as
+begin
+	update ViPhamHopDong
+	set NguoiViPham = @nguoivipham , NoiDungViPham = @noidungvipham, BienPhapXuLy = @bienphapxuly, TinhTrang = @tinhtrang where MaViPham = @mavipham 
+
+	if(@tinhtrang = N'Hủy')
+	begin
+	update ViPhamHopDong set TinhTrang = N'Hủy' where MaViPham = @mavipham
+	update PhongTro set TinhTrang = N'Trống' where MaPhong = @maphong
+	update KhachThue set TinhTrang = N'Hết Hạn' where MaKhach = @makhach
+	update HoaDonThang set TinhTrang = N'Đã Thu' where MaKhach = @makhach
+	update HopDong set TinhTrang = N'Hết Hạn' where MaHopDong = @mahopdong
+	end
+end
+go
+
+create proc SP_LapBangHuyHopDong
+@mahopdong varchar(20),
+@manguoidung varchar(20),
+@makhach varchar(20),
+@maphong varchar(20),
+@nguoivipham nvarchar(20),
+@noidungvipham nvarchar(100),
+@ngayvipham nvarchar(50),
+@ngayhuy nvarchar(50),
+@bienphapxuly nvarchar(100),
+@tienboithuong float,
+@tinhtrang nvarchar(50)
+as
+begin
+	declare @id int
+	declare @mavipham varchar(20)
+
+	select @id = ISNULL(MAX(id),0) + 1 from HopDong
+	select @mavipham = 'VP_' + RIGHT('0000' + CAST(@id as nvarchar(4)),4)
+
+	insert into ViPhamHopDong (MaViPham ,MaHopDong, MaNguoiDung, MaKhach, MaPhong, NguoiViPham, NoiDungViPham, NgayViPham, NgayHuy,BienPhapXuLy, TienBoiThuong, TinhTrang) 
+	values(@mavipham, @mahopdong, @manguoidung, @makhach, @maphong, @nguoivipham, @noidungvipham, @ngayvipham, @ngayhuy, @bienphapxuly, @tienboithuong, @tinhtrang)
+
+end
+go
+
+create proc SP_TimKiemMaKhach 
+@makhach nvarchar(20)
+as
+begin
+	select MaViPham ,MaHopDong, MaNguoiDung, MaKhach, MaPhong, NguoiViPham, NoiDungViPham, NgayViPham, NgayHuy, BienPhapXuLy, TienBoiThuong, TinhTrang
+	from ViPhamHopDong
+	where MaKhach like '%'+ @makhach + '%'
+end
+go
+
+
+create proc SP_TimKiemNgayKetThuc
+@ngayvipham nvarchar(20)
+as
+begin
+	select MaViPham ,MaHopDong, MaNguoiDung, MaKhach, MaPhong, NguoiViPham, NoiDungViPham, NgayViPham, NgayHuy, BienPhapXuLy, TienBoiThuong, TinhTrang
+	from ViPhamHopDong
+	where NgayViPham like '%'+ @ngayvipham + '%'
 end
 go

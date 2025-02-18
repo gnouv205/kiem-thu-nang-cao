@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +35,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DuongDanKetNoi.cs" />
-    <Compile Include="KhachThue_DAL.cs" />
-    <Compile Include="NguoiDung_DAL.cs" />
-    <Compile Include="PhongTro_DAL.cs" />
+    <Compile Include="1_DangNhap_DAL.cs" />
+    <Compile Include="2_DoiMatKhau_DAL.cs" />
+    <Compile Include="0_DuongDanKetNoi.cs" />
+    <Compile Include="8_HoaDon_DAL.cs" />
+    <Compile Include="6_HopDong_DAL.cs" />
+    <Compile Include="5_KhachThue_DAL.cs" />
+    <Compile Include="3_NguoiDung_DAL.cs" />
+    <Compile Include="4_PhongTro_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="7_ViPhamHopDong_DAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\_DTO_\_DTO_.csproj">

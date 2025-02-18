@@ -9,13 +9,26 @@ using _DTO_;
 
 namespace _2BUS_
 {
-    public static class PhonTro_BUS
-    {
-        public static DataTable TaiDanhSachPhong()
+    public static class PhongTro_BUS
+    {       
+        public static DataTable DanhSachMaPhong()
         {
             try
             {
-                return PhongTro_DAL.TaiDanhSachPhong();
+                return PhongTro_DAL.DanhSachMaPhong();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+                return null;
+            }
+        }
+
+        public static DataTable TaiDanhSachPhongTrong()
+        {
+            try
+            {
+                return PhongTro_DAL.TaiDanhSachPhongTrong();
             }
             catch (Exception ex)
             {
@@ -24,11 +37,24 @@ namespace _2BUS_
             }
         }
 
-        public static DataTable DanhSachMaPhong()
+        public static DataTable TaiDanhSachPhongDaThue()
         {
             try
             {
-                return PhongTro_DAL.DanhSachMaPhong();
+                return PhongTro_DAL.TaiDanhSachPhongDaThue();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+                return null;
+            }
+        }
+
+        public static DataTable TaiDanhSachPhongKhongSuDung()
+        {
+            try
+            {
+                return PhongTro_DAL.TaiDanhSachPhongKhongSuDung();
             }
             catch (Exception ex)
             {
@@ -107,6 +133,30 @@ namespace _2BUS_
             try
             {
                 return PhongTro_DAL.TinhTrangPhong(maphong);
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
+        }
+
+        public static string HienTrangPhong(string maphong)
+        {
+            try
+            {
+                return PhongTro_DAL.HienTrangPhong(maphong);
+            }
+            catch (Exception ex)
+            {
+                return $"Lỗi: {ex.Message}";
+            }
+        }
+
+        public static string DanSachGiaPhong(string maphong)
+        {
+            try
+            {
+                return PhongTro_DAL.DanSachGiaPhong(maphong);
             }
             catch (Exception ex)
             {
